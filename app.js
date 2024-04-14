@@ -91,7 +91,9 @@ window.onload = function() {
     document.addEventListener("keydown", dinoMove)
     requestAnimationFrame(update)
     setInterval(placeCactus, 1000)
-    setInterval(placeBird, 1000)
+    // if(score > 3000){
+        setInterval(placeBird,2500)
+    // }
 }
 
 function update() {
@@ -185,6 +187,15 @@ function placeCactus() {
     if (gameOver) {
         return;
     }
+        let bird = {
+            img : null,
+            x : birdX,
+            y : birdY,
+            width : null,
+            height : birdHeight
+        }
+
+        
     let cactus = {
         img : null,
         x : cactusX,
@@ -203,38 +214,45 @@ function placeCactus() {
         cactus.img = cactus2Img
         cactus.width = cactus2Width
         cactusArray.push(cactus)  
+    }else if (placeCactusChance > 0.50 && score >3000){
+        bird.img = bird1Img
+        bird.width = bird1Width
+        birdArray.push(bird)
     }else if (placeCactusChance > 0.50) {
         cactus.img = cactus1Img
         cactus.width = cactus1Width
         cactusArray.push(cactus)
     }
 
+    if( birdArray.length > 5) {
+        birdArray.shift()//suppr le premier élément, donc le tableau n'aura pas plus de 5 élément à la fois
+    }
     if( cactusArray.length > 5) {
         cactusArray.shift()//suppr le premier élément, donc le tableau n'aura pas plus de 5 élément à la fois
     }
 }
 
-function placeBird() {
-    if(gameOver){
-        return;
-    }
+    // function placeBird() {
+    //     if(gameOver){
+    //         return;
+    //     }
 
-    let bird = {
-        img : null,
-        x : birdX,
-        y : birdY,
-        width : null,
-        height : birdHeight
-    }
-    bird.img = bird1Img
-    bird.width = bird1Width
-    birdArray.push(bird)
+    //     let bird = {
+    //         img : null,
+    //         x : birdX,
+    //         y : birdY,
+    //         width : null,
+    //         height : birdHeight
+    //     }
+    //         bird.img = bird1Img
+    //         bird.width = bird1Width
+    //         birdArray.push(bird)
 
-    if( birdArray.length > 5) {
-        birdArray.shift()//suppr le premier élément, donc le tableau n'aura pas plus de 5 élément à la fois
-    }
+    //     if( birdArray.length > 5) {
+    //         birdArray.shift()//suppr le premier élément, donc le tableau n'aura pas plus de 5 élément à la fois
+    //     }
 
-}
+    // }
 //la fonction vérifie toute les façon dont a et b pourrait se toucher
 function detecCollision(a, b) {
     return a.x < b.x + b.width && //le coin supérieur gauche de a n'atteint pas le coin supérieur droit de b
